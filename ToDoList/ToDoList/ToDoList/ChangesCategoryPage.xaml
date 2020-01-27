@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ToDoList.ChangesCategoryPage">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem x:Name="btnDone" Icon="done.png"  Order="Primary" Activated="BtnDone_Activated"/>
+        <ToolbarItem x:Name="btnClear" Icon="clear.png"  Order="Primary" Activated="BtnClear_Activated"/>
+
+    </ContentPage.ToolbarItems>
+    <StackLayout>
+        <ListView x:Name="categoryList" ItemsSource="{Binding}" >
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <ViewCell.View>
+                            <StackLayout Orientation="Horizontal">
+                                <Label Text="{Binding Name}" FontSize="Medium" />
+                                <Button x:Name="btndel" Image="clear.png" BackgroundColor="Transparent" Margin="10"  />
+                            </StackLayout>
+                        </ViewCell.View>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        
+    </StackLayout>
+
+</ContentPage>
