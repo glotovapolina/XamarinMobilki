@@ -55,6 +55,10 @@ namespace ToDoList
         {
             return await database.DeleteAsync<Category>(id);
         }
+        public async Task<int> DeleteItemCategory(Category category)
+        {
+            return await database.DeleteAsync(category);
+        }
         public async Task<int> DeleteItemTask(int id)
         {
             return await database.DeleteAsync<Task>(id);

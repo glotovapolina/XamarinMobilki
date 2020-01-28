@@ -14,8 +14,19 @@
                     <ViewCell>
                         <ViewCell.View>
                             <StackLayout Orientation="Horizontal">
-                                <Label Text="{Binding Name}" FontSize="Medium" />
-                                <Button x:Name="btndel" Image="clear.png" BackgroundColor="Transparent" Margin="10"  />
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="50" />
+                                        <ColumnDefinition Width="175" />
+                                        <ColumnDefinition Width="50"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Image Source="label.png" Grid.Column="0" Grid.Row="0"  ></Image>
+                                    <Label Text="{Binding Name}" FontSize="Medium" Grid.Column="1" Grid.Row="0"/>
+                                    <Button x:Name="btndel"   Image="clear.png" BackgroundColor="Transparent" Grid.Column="3" Grid.Row="0" Clicked="Btndel_Clicked" />
+                                </Grid>
                             </StackLayout>
                         </ViewCell.View>
                     </ViewCell>

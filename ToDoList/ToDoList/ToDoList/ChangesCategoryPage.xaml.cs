@@ -43,6 +43,15 @@ namespace ToDoList
         {
 
         }
+
+        private async void Btndel_Clicked(object sender, EventArgs e)
+        {
+
+            Category category = new Category();
+            await App.Database.DeleteItemCategory(category);
+            await this.Navigation.PopAsync();
+            // App.Database.DeleteItemCategory();
+        }
         /* protected override void OnAppearing()
 {
 ToolbarItem.
