@@ -59,7 +59,10 @@ namespace mobilki
             {
                 var stack = new StackLayout();
                 stack.Orientation = StackOrientation.Horizontal;
-                stack.Children.Add(new CheckBox());
+                var c = new CheckBox();
+                // todo add c and t and stack to object
+                // find way checketcheckbox get id
+                stack.Children.Add(c);
                 var l = new Label();
                 l.Text = t.Name + "\n" + t.TimeDate;
                 stack.Children.Add(l);
