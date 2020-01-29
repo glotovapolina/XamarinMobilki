@@ -90,7 +90,9 @@ namespace mobilki
             SetCategoryNameInTitle();
             CancelAlarms();
             SetAlarms();
-            SetTasksInCurrentCategory();
+            SelectTasksInCurrentCategory();
+
+            tasks = Task.SortFromSoonToLater(tasks);
 
 
 
@@ -166,7 +168,7 @@ namespace mobilki
             }
         }
 
-        private void SetTasksInCurrentCategory()
+        private void SelectTasksInCurrentCategory()
         {
             tasks = tasks.Where(task => task.IdCategory == idCategory).ToList();
         }
