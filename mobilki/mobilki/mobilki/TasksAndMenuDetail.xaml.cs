@@ -77,8 +77,8 @@ namespace mobilki
 
         private void SortAndShow()
         {
-            int previousState = 0;
-            int currentState = 0;
+            string previousState = "";
+            string currentState = "";
 
             ListLayout.Children.Clear();
             //cancelAlarms();
@@ -94,7 +94,35 @@ namespace mobilki
 
             tasks = Task.SortFromSoonToLater(tasks);
 
+            previousState = tasks.FirstOrDefault() == null ? "" : tasks.First().Timeline;
 
+            foreach (var curr in tasks)
+            {
+                currentState = curr.Timeline;
+                var checkboxAndLabelLayout = new StackLayout();
+                checkboxAndLabelLayout.Orientation = StackOrientation.Horizontal;
+                var checkbox = new CheckBox();
+                // todo add checkbox and layout and task in dictionary
+                checkbox.CheckedChanged += (sender, e) =>
+                {
+                    if (e.Value)
+                    {
+                        // Remove element from view
+                        var stack = (StackLayout)((CheckBox)sender).Parent;
+                        ListLayout.Children.Remove(stack);
+
+                        // Delete task from db
+                        // todo
+
+                        SortAndShow();
+                    }
+                };
+
+                checkboxAndLabelLayout.Children.Add(checkbox);
+                var label = new Label();
+                label.Text = curr.ToString();
+                checkboxAndLabelLayout.Children.Add(label);
+            }
 
         }
 

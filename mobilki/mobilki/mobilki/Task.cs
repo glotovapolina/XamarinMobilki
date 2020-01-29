@@ -8,6 +8,11 @@ namespace mobilki
     [Table("Task")]
     public class Task
     {
+        public static readonly string EXPIRED = "EXPIRED";
+        public static readonly string TODAY = "TODAY";
+        public static readonly string TOMORROW = "TOMORROW";
+        public static readonly string LATER = "LATER";
+
         public String Name { get; set; }
         [PrimaryKey, AutoIncrement, Column("_idTask")]
         public int IdTask { get; set; }
@@ -49,17 +54,50 @@ namespace mobilki
         {
             Task bucket;
 
-            for (int i = tasks.Count; i >= 1; i--) {
-                for (int j = 0; j < i; j++) {
-                    if (tasks[j].DateTimeOfTask > tasks[j +1].DateTimeOfTask)
+            for (int i = tasks.Count; i >= 1; i--)
+            {
+                for (int j = 0; j < i; j++)
+                {
+                    if (tasks[j].DateTimeOfTask > tasks[j + 1].DateTimeOfTask)
                     {
                         bucket = tasks[j];
                         tasks.RemoveAt(j);
-                        tasks.Insert(j +1, bucket);
+                        tasks.Insert(j + 1, bucket);
                     }
                 }
             }
             return tasks;
+        }
+
+        private static bool FallsIntoInterval(
+            DateTime item,
+            DateTime intervalStart,
+            DateTime intervalEnd)
+        {
+
+            return ((item >= intervalStart) && (item < intervalEnd));
+        }
+
+        public string Timeline
+        {
+            get
+            {
+                var now = DateTime.UtcNow;
+                if ((DateTimeOfTask - now).TotalMilliseconds < 0)
+                    return EXPIRED;
+
+                var today = new DateTime(DateTime.UtcNow.Year, DateTime.UtcNow.Month, DateTime.UtcNow.Day);
+                var tomorrow = today.AddDays(1);
+
+                if (FallsIntoInterval(DateTimeOfTask, today, tomorrow))
+                    return TODAY;
+
+                var afterTomorrow = tomorrow.AddDays(1);
+                if (FallsIntoInterval(DateTimeOfTask, tomorrow, afterTomorrow))
+                    return TOMORROW;
+
+                return LATER;
+            }
         }
     }
 }
