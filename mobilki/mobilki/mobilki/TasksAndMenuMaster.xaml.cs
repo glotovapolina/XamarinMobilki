@@ -33,11 +33,11 @@ namespace mobilki
             {
                 MenuItems = new ObservableCollection<Page>(new[]
                 {
-                    new TasksAndMenuMasterMenuItem { Id = 0, Title = "Page 1" },
-                    new TasksAndMenuMasterMenuItem { Id = 1, Title = "Page 2" },
-                    new TasksAndMenuMasterMenuItem { Id = 2, Title = "Page 3" },
-                    new TasksAndMenuMasterMenuItem { Id = 3, Title = "Page 4" },
-                    new TasksAndMenuMasterMenuItem { Id = 4, Title = "Page 5" },
+                    new TasksAndMenuMasterMenuItem { Title = "Page 1" },
+                    new TasksAndMenuMasterMenuItem { Title = "Page 2" },
+                    new TasksAndMenuMasterMenuItem { Title = "Page 3" },
+                    new TasksAndMenuMasterMenuItem { Title = "Page 4" },
+                    new TasksAndMenuMasterMenuItem { Title = "Page 5" },
                 });
             }
 

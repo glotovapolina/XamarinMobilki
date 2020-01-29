@@ -12,11 +12,39 @@ namespace mobilki
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class TasksAndMenuDetail : ContentPage
     {
-        public string Title { get; set; }
-        List<Task> tasks = new List<Task>();
-        List<Category> categories = new List<Category>();
+        #region For saving instance
+        private bool isEnteringText = false;
+        private bool isEnteringCategory = false;
+        private bool isPickingDate = false;
+        private bool isPickingTime = false;
+        private String enteredText = null;
+        private String enteredCategory = null;
+        private DateTime? pickedTime = null;
+        private DateTime? pickedDate = null;
+        #endregion
+
+        #region Extra info from other activities
+        private String userId;
+        private bool all = true;
+        private String idCategory = "";
+        #endregion
+
+        #region New task
+        private String description;
+        private String nameCategory;
+        private DateTime? datetime = null;
+        #endregion
+
+        #region For tasks and categories
+        private List<Task> tasks = new List<Task>();
+        private List<Category> categories = new List<Category>();
+        // private ArrayMap<Integer, String> menuCategory = new ArrayMap<>();
+        //private Menu subMenu;
+        #endregion
+
         public TasksAndMenuDetail()
         {
+            InitializeComponent();
             Title = "All";
             categories.Add(new Category
             {
@@ -54,7 +82,7 @@ namespace mobilki
             });
 
 
-            InitializeComponent();
+            
             foreach (var t in tasks)
             {
                 var stack = new StackLayout();
@@ -63,6 +91,7 @@ namespace mobilki
                 // todo add c and t and stack to object
                 // find way checketcheckbox get id
                 stack.Children.Add(c);
+                var vvv = c.Parent;
                 var l = new Label();
                 l.Text = t.Name + "\n" + t.TimeDate;
                 stack.Children.Add(l);
