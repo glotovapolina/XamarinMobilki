@@ -45,7 +45,7 @@ namespace mobilki
             return Name + "\n" + DateTimeOfTask.ToString("HH:mm dd-MM-yyyy");
         }
 
-        public static List<Task> SortFromSoonToLater(this List<Task> tasks)
+        public static List<Task> SortFromSoonToLater(List<Task> tasks)
         {
             Task bucket;
 
@@ -57,7 +57,6 @@ namespace mobilki
                         tasks.RemoveAt(j);
                         tasks.Insert(j +1, bucket);
                     }
-
                 }
             }
             return tasks;
