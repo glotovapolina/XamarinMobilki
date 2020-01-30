@@ -153,7 +153,7 @@ namespace mobilki
                 IdTask = 4,
                 IdCategory = 1,
                 Name = "444",
-                TimeDate = "2020-10-01 11:00"
+                TimeDate = "2021-10-01 11:00"
             });
 
 
@@ -242,7 +242,7 @@ namespace mobilki
             Label timelineNameLabel = new Label
             {
                 Text = timeline,
-                FontSize = 20,
+                FontSize = 16,
                 // Todo otherday color
                 TextColor = Color.DarkGray
             };

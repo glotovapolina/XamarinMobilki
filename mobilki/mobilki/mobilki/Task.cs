@@ -47,7 +47,9 @@ namespace mobilki
         override
         public string ToString()
         {
-            return Name + "\n" + DateTimeOfTask.ToString("HH:mm dd-MM-yyyy");
+            if (DateTimeOfTask.Year == DateTime.UtcNow.Year)
+                return Name + "\n" + DateTimeOfTask.ToString("dd-MM HH:mm");
+            return Name + "\n" + DateTimeOfTask.ToString("dd-MM-yyyy HH:mm");
         }
 
         public static List<Task> SortFromSoonToLater(List<Task> tasks)
