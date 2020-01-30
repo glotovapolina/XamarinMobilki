@@ -12,21 +12,10 @@ namespace mobilki
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class TasksAndMenuDetail : ContentPage
     {
-        #region For saving instance
-        private bool isEnteringText = false;
-        private bool isEnteringCategory = false;
-        private bool isPickingDate = false;
-        private bool isPickingTime = false;
-        private String enteredText = null;
-        private String enteredCategory = null;
-        private DateTime? pickedTime = null;
-        private DateTime? pickedDate = null;
-        #endregion
-
         #region Extra info from other activities
         private String userId;
         private bool all = true;
-        private int idCategory = 1;
+        private int? categoryId = 1;
         #endregion
 
         #region New task
@@ -43,20 +32,23 @@ namespace mobilki
         //private Menu subMenu;
         #endregion
 
+            //todo remove
         public TasksAndMenuDetail()
         {
             InitializeComponent();
             Title = "All";
-            InitPage(-1);
+            InitPage();
         }
 
-        public TasksAndMenuDetail(int categoryId)
+        public TasksAndMenuDetail(string userId, int? categoryId)
         {
             InitializeComponent();
-            InitPage(categoryId);
+            this.userId = userId;
+            this.categoryId = categoryId;
+            InitPage();
         }
 
-        public void InitPage(int categoryId)
+        private void InitPage()
         {
             InitCategories();
             InitTasks();
@@ -84,7 +76,7 @@ namespace mobilki
             {
                 currentState = current.Timeline;
 
-                var taskLayout = CreateTaskToLayout(current);
+                var taskLayout = CreateTaskLayout(current);
 
                 if (AddTimelineIfChenged(previousState, currentState))
                 {
@@ -281,12 +273,13 @@ namespace mobilki
 
         private void SetCategoryNameInTitle()
         {
+            //todo categotyname
             /*
             String catName = all ? getString(R.string.all_tasks) : db.getCategoryNameById(idCategory);
             catName = (catName.equals(getString(R.string.no_category_in_db))) ? getString(R.string.no_category) : catName;
             return catName;
             */
-            Title = categories.First(c => c.IdCategory == idCategory).Name;
+            Title = categories.First().Name;
         }
 
         private void CancelAlarms()
@@ -304,7 +297,7 @@ namespace mobilki
 
         private void SelectTasksInCurrentCategory()
         {
-            tasks = tasks.Where(task => task.IdCategory == idCategory).ToList();
+            tasks = tasks.Where(task => task.IdCategory == categoryId).ToList();
         }
 
         private void CheckboxCheckedChanged(object sender, CheckedChangedEventArgs e)
@@ -328,14 +321,17 @@ namespace mobilki
             }
         }
 
-        private StackLayout CreateTaskToLayout(Task current)
+        private StackLayout CreateTaskLayout(Task current)
         {
             // Layout for row
             var checkboxAndLabelsLayout = new StackLayout();
             checkboxAndLabelsLayout.Orientation = StackOrientation.Horizontal;
 
             // Checkbox
-            var checkbox = new CheckBox();
+            var checkbox = new CheckBox
+            {
+                Color = Color.CornflowerBlue
+            };
             checkboxTaskPairs.Add(checkbox.Id, current);
             checkbox.CheckedChanged += CheckboxCheckedChanged;
             checkboxAndLabelsLayout.Children.Add(checkbox);
@@ -343,7 +339,8 @@ namespace mobilki
             // Label
             var label = new Label
             {
-                Text = current.ToString()
+                Text = current.ToString(),
+                FontSize = 16
             };
             checkboxAndLabelsLayout.Children.Add(label);
 
@@ -355,7 +352,7 @@ namespace mobilki
             Label timelineNameLabel = new Label
             {
                 Text = timeline,
-                FontSize = 16,
+                FontSize = 20,
                 // Todo otherday color
                 TextColor = Color.DarkGray
             };
@@ -393,7 +390,7 @@ namespace mobilki
 
         private async void OnFabButtonClicked(object sender, EventArgs args)
         {
-            Title = Guid.NewGuid().ToString();
+            await Navigation.PushAsync(new CreateTaskPage(userId, categoryId));
         }
     }
 }
