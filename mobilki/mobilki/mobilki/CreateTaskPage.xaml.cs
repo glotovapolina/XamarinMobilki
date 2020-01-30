@@ -10,14 +10,16 @@ namespace mobilki
     {
         private readonly string userId;
         private readonly int? categoryId;
+        private readonly bool all;
 
-        public CreateTaskPage(string idUser, int? idCategory)
+        public CreateTaskPage(string idUser, int? idCategory, bool all)
         {
             InitializeComponent();
             InitializeText();
 
             this.userId = idUser;
             this.categoryId = idCategory;
+            this.all = all;
         }
 
         private void InitializeText()
@@ -50,7 +52,7 @@ namespace mobilki
             //if category null - nocategory
 
 
-            await Navigation.PushAsync(new TasksAndMenuDetail(userId, categoryId));
+            await Navigation.PushAsync(new TasksAndMenuDetail(userId, categoryId, all));
         }
     }
 }

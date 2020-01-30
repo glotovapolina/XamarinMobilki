@@ -44,11 +44,12 @@ namespace mobilki
             InitPage();
         }
 
-        public TasksAndMenuDetail(string userId, int? categoryId)
+        public TasksAndMenuDetail(string userId, int? categoryId, bool all = true)
         {
             InitializeComponent();
             this.UserId = userId;
             this.CategoryId = categoryId;
+            this.all = all;
             InitPage();
         }
 
@@ -283,7 +284,8 @@ namespace mobilki
 
         private void SelectTasksInCurrentCategory()
         {
-            tasks = tasks.Where(task => task.IdCategory == CategoryId).ToList();
+            if (!all)
+                tasks = tasks.Where(task => task.IdCategory == CategoryId).ToList();
         }
 
         private void CheckboxCheckedChanged(object sender, CheckedChangedEventArgs e)
@@ -376,7 +378,7 @@ namespace mobilki
 
         private async void OnFabButtonClicked(object sender, EventArgs args)
         {
-            await Navigation.PushAsync(new CreateTaskPage(UserId, CategoryId));
+            await Navigation.PushAsync(new CreateTaskPage(UserId, CategoryId, all));
         }
     }
 }
