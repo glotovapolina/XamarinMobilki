@@ -156,6 +156,119 @@ namespace mobilki
                 TimeDate = "2021-10-01 11:00"
             });
 
+            #region copies
+            tasks.Add(new Task
+            {
+                IdTask = 1,
+                IdCategory = 1,
+                Name = "111",
+                TimeDate = "2020-01-29 11:00"
+            });
+            tasks.Add(new Task
+            {
+                IdTask = 2,
+                IdCategory = 1,
+                Name = "222",
+                TimeDate = "2020-01-30 11:00"
+            });
+            tasks.Add(new Task
+            {
+                IdTask = 3,
+                IdCategory = 1,
+                Name = "333",
+                TimeDate = "2020-01-31 11:00"
+            });
+            tasks.Add(new Task
+            {
+                IdTask = 4,
+                IdCategory = 1,
+                Name = "444",
+                TimeDate = "2021-10-01 11:00"
+            }); tasks.Add(new Task
+            {
+                IdTask = 1,
+                IdCategory = 1,
+                Name = "111",
+                TimeDate = "2020-01-29 11:00"
+            });
+            tasks.Add(new Task
+            {
+                IdTask = 2,
+                IdCategory = 1,
+                Name = "222",
+                TimeDate = "2020-01-30 11:00"
+            });
+            tasks.Add(new Task
+            {
+                IdTask = 3,
+                IdCategory = 1,
+                Name = "333",
+                TimeDate = "2020-01-31 11:00"
+            });
+            tasks.Add(new Task
+            {
+                IdTask = 4,
+                IdCategory = 1,
+                Name = "444",
+                TimeDate = "2021-10-01 11:00"
+            });
+
+            tasks.Add(new Task
+            {
+                IdTask = 1,
+                IdCategory = 1,
+                Name = "111",
+                TimeDate = "2020-01-29 11:00"
+            });
+            tasks.Add(new Task
+            {
+                IdTask = 2,
+                IdCategory = 1,
+                Name = "222",
+                TimeDate = "2020-01-30 11:00"
+            });
+            tasks.Add(new Task
+            {
+                IdTask = 3,
+                IdCategory = 1,
+                Name = "333",
+                TimeDate = "2020-01-31 11:00"
+            });
+            tasks.Add(new Task
+            {
+                IdTask = 4,
+                IdCategory = 1,
+                Name = "444",
+                TimeDate = "2021-10-01 11:00"
+            }); tasks.Add(new Task
+            {
+                IdTask = 1,
+                IdCategory = 1,
+                Name = "111",
+                TimeDate = "2020-01-29 11:00"
+            });
+            tasks.Add(new Task
+            {
+                IdTask = 2,
+                IdCategory = 1,
+                Name = "222",
+                TimeDate = "2020-01-30 11:00"
+            });
+            tasks.Add(new Task
+            {
+                IdTask = 3,
+                IdCategory = 1,
+                Name = "333",
+                TimeDate = "2020-01-31 11:00"
+            });
+            tasks.Add(new Task
+            {
+                IdTask = 4,
+                IdCategory = 1,
+                Name = "444",
+                TimeDate = "2021-10-01 11:00"
+            });
+            #endregion
 
             tasks.Add(new Task
             {
@@ -276,6 +389,11 @@ namespace mobilki
             }
 
             return false;
+        }
+
+        private async void OnFabButtonClicked(object sender, EventArgs args)
+        {
+            Title = Guid.NewGuid().ToString();
         }
     }
 }

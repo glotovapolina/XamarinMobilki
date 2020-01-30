@@ -6,11 +6,23 @@
              mc:Ignorable="d"
              x:Class="mobilki.TasksAndMenuDetail"
              Title="Detail">
-    <StackLayout Padding="10">
-        <ScrollView>
+    <Grid Margin="20,35,20,20">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="100*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="80*" />
+            <RowDefinition Height="20*" />
+        </Grid.RowDefinitions>
+        <ScrollView
+            Grid.Row="0">
             <StackLayout x:Name="ListLayout">
 
             </StackLayout>
         </ScrollView>
-    </StackLayout>
+        <Button
+           Grid.Row="1"
+            BackgroundColor="Red"
+            Clicked="OnFabButtonClicked" />
+    </Grid>
 </ContentPage>
