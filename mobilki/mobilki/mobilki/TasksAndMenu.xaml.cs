@@ -18,6 +18,11 @@ namespace mobilki
             MasterPage.SetMenu(userId);
 
             MasterPage.ListView.ItemSelected += ListView_ItemSelected;
+
+            var detail = (TasksAndMenuDetail)((NavigationPage)Detail).RootPage;
+            detail.UserId = userId;
+            detail.CategoryId = null;
+            detail.InitPage();
         }
 
         private void ListView_ItemSelected(object sender, SelectedItemChangedEventArgs e)

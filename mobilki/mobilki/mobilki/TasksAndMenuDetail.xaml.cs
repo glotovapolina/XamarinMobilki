@@ -15,9 +15,9 @@ namespace mobilki
         public Type TargetType { get; set; }
 
         #region Extra info from other activities
-        private String userId;
+        public String UserId;
         private bool all = true;
-        private int? categoryId = null;
+        public int? CategoryId = null;
         #endregion
 
         #region New task
@@ -47,12 +47,12 @@ namespace mobilki
         public TasksAndMenuDetail(string userId, int? categoryId)
         {
             InitializeComponent();
-            this.userId = userId;
-            this.categoryId = categoryId;
+            this.UserId = userId;
+            this.CategoryId = categoryId;
             InitPage();
         }
 
-        private void InitPage()
+        public void InitPage()
         {
             InitTasks();
 
@@ -265,7 +265,7 @@ namespace mobilki
             catName = (catName.equals(getString(R.string.no_category_in_db))) ? getString(R.string.no_category) : catName;
             return catName;
             */
-            Title = categoryId + userId;
+            Title = CategoryId + UserId;
         }
 
         private void CancelAlarms()
@@ -283,7 +283,7 @@ namespace mobilki
 
         private void SelectTasksInCurrentCategory()
         {
-            tasks = tasks.Where(task => task.IdCategory == categoryId).ToList();
+            tasks = tasks.Where(task => task.IdCategory == CategoryId).ToList();
         }
 
         private void CheckboxCheckedChanged(object sender, CheckedChangedEventArgs e)
@@ -376,7 +376,7 @@ namespace mobilki
 
         private async void OnFabButtonClicked(object sender, EventArgs args)
         {
-            await Navigation.PushAsync(new CreateTaskPage(userId, categoryId));
+            await Navigation.PushAsync(new CreateTaskPage(UserId, CategoryId));
         }
     }
 }
