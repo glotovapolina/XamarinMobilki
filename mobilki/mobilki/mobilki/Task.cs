@@ -54,11 +54,11 @@ namespace mobilki
         {
             Task bucket;
 
-            for (int i = tasks.Count; i >= 1; i--)
+            for (int i = 0; i < tasks.Count; i++)
             {
-                for (int j = 0; j < i; j++)
+                for (int j = 0; j < tasks.Count - i -1; j++)
                 {
-                    if (tasks[j].DateTimeOfTask > tasks[j + 1].DateTimeOfTask)
+                    if (tasks[j].DateTimeOfTask < tasks[j + 1].DateTimeOfTask)
                     {
                         bucket = tasks[j];
                         tasks.RemoveAt(j);

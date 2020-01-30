@@ -6,6 +6,11 @@
              mc:Ignorable="d"
              x:Class="mobilki.TasksAndMenuDetail"
              Title="Detail">
-    <StackLayout x:Name="ListLayout" Padding="10">
+    <StackLayout Padding="10">
+        <ScrollView>
+            <StackLayout x:Name="ListLayout">
+
+            </StackLayout>
+        </ScrollView>
     </StackLayout>
 </ContentPage>
