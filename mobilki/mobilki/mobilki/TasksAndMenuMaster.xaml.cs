@@ -20,25 +20,29 @@ namespace mobilki
         public TasksAndMenuMaster()
         {
             InitializeComponent();
+        }
 
-            BindingContext = new TasksAndMenuMasterViewModel();
+        public void SetMenu(string userId)
+        {
+            BindingContext = new TasksAndMenuMasterViewModel(userId);
             ListView = MenuItemsListView;
         }
 
         class TasksAndMenuMasterViewModel : INotifyPropertyChanged
         {
+
+            private List<Category> categories = new List<Category>();
             public ObservableCollection<Page> MenuItems { get; set; }
 
-            public TasksAndMenuMasterViewModel()
+            public TasksAndMenuMasterViewModel(string userId)
             {
-                MenuItems = new ObservableCollection<Page>(new[]
+                InitCategories(userId);
+
+                MenuItems = new ObservableCollection<Page>();
+                foreach (var category in categories)
                 {
-                    new TasksAndMenuMasterMenuItem { Title = "Page 1" },
-                    new TasksAndMenuMasterMenuItem { Title = "Page 2" },
-                    new TasksAndMenuMasterMenuItem { Title = "Page 3" },
-                    new TasksAndMenuMasterMenuItem { Title = "Page 4" },
-                    new TasksAndMenuMasterMenuItem { Title = "Page 5" },
-                });
+                    MenuItems.Add(new TasksAndMenuDetail(userId, category.IdCategory));
+                }
             }
 
             #region INotifyPropertyChanged Implementation
@@ -51,6 +55,27 @@ namespace mobilki
                 PropertyChanged.Invoke(this, new PropertyChangedEventArgs(propertyName));
             }
             #endregion
+
+            /// <summary>
+            /// Все категории пользователя
+            /// </summary>
+            private void InitCategories(string userId)
+            {
+                // todo load cetegories 
+
+                categories.Add(new Category
+                {
+                    IdCategory = 1,
+                    Name = "c111",
+                    IdUser = "1"
+                });
+                categories.Add(new Category
+                {
+                    IdCategory = 2,
+                    Name = "c222",
+                    IdUser = "1"
+                });
+            }
         }
     }
 }

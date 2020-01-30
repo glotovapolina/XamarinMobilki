@@ -12,19 +12,21 @@ namespace mobilki
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class TasksAndMenu : MasterDetailPage
     {
-        public TasksAndMenu()
+        public TasksAndMenu(string userId)
         {
             InitializeComponent();
+            MasterPage.SetMenu(userId);
+
             MasterPage.ListView.ItemSelected += ListView_ItemSelected;
         }
 
         private void ListView_ItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
-            var item = e.SelectedItem as TasksAndMenuMasterMenuItem;
+            var item = e.SelectedItem as TasksAndMenuDetail;
             if (item == null)
                 return;
 
-            var page = (Page)Activator.CreateInstance(item.TargetType);
+            var page = (Page)item;
             page.Title = item.Title;
 
             Detail = new NavigationPage(page);

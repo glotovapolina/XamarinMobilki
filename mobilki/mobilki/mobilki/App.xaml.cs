@@ -9,8 +9,8 @@ namespace mobilki
         public App()
         {
             InitializeComponent();
-
-            MainPage = new TasksAndMenu();
+            //todo remove hardcode
+            MainPage = new TasksAndMenu("userId");
         }
 
         protected override void OnStart()

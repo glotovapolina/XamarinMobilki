@@ -12,10 +12,12 @@ namespace mobilki
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class TasksAndMenuDetail : ContentPage
     {
+        public Type TargetType { get; set; }
+
         #region Extra info from other activities
         private String userId;
         private bool all = true;
-        private int? categoryId = 1;
+        private int? categoryId = null;
         #endregion
 
         #region New task
@@ -35,6 +37,8 @@ namespace mobilki
             //todo remove
         public TasksAndMenuDetail()
         {
+            TargetType = typeof(TasksAndMenuDetail);
+
             InitializeComponent();
             Title = "All";
             InitPage();
@@ -50,7 +54,6 @@ namespace mobilki
 
         private void InitPage()
         {
-            InitCategories();
             InitTasks();
 
             SetCategoryNameInTitle();
@@ -95,24 +98,7 @@ namespace mobilki
 
         }
 
-        /// <summary>
-        /// Все категории пользователя
-        /// </summary>
-        private void InitCategories()
-        {
-            categories.Add(new Category
-            {
-                IdCategory = 1,
-                Name = "c111",
-                IdUser = "1"
-            });
-            categories.Add(new Category
-            {
-                IdCategory = 2,
-                Name = "c222",
-                IdUser = "1"
-            });
-        }
+
 
         /// <summary>
         /// Все таски пользователя по всем категориям
@@ -279,7 +265,7 @@ namespace mobilki
             catName = (catName.equals(getString(R.string.no_category_in_db))) ? getString(R.string.no_category) : catName;
             return catName;
             */
-            Title = categories.First().Name;
+            Title = categoryId + userId;
         }
 
         private void CancelAlarms()
