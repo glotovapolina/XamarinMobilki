@@ -20,10 +20,6 @@ namespace XamarinToDoList
             Title = "Authentication";
             loginViewModel = new LoginViewModel();
             BindingContext = loginViewModel;
-          
-
-          
-            
         }
         protected override async void OnAppearing()
         {
@@ -37,7 +33,7 @@ namespace XamarinToDoList
             if (user.Count != 0)
             {
                 TasksAndMenu page = new TasksAndMenu(user[0].Email);
-                await Navigation.PushAsync(page);
+                await Navigation.PushModalAsync(page);
                 /*
                 ChangesCategoryPage categPage = new ChangesCategoryPage(user[0].Email, user[0].Password);
                 categPage.BindingContext = user;
