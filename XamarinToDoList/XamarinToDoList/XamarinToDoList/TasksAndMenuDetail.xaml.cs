@@ -59,11 +59,30 @@ namespace XamarinToDoList
             InitTasks();
 
             // todo chouse category id
-            CategoryId = 1;
+
+            SetCategoryId();
 
             SetCategoryNameInTitle();
 
             SortAndShow();
+        }
+
+        private async T.Task SetCategoryId()
+        {
+            var count = (await App.Database.GetItemsCategory()).Count();
+            if (count == 0)
+            {
+                await App.Database.SaveItemCategory(new Category
+                {
+                    Name = Database.GetUndeletableCategory(),
+                    IdUser = UserId
+                });
+            }
+
+            if (all)
+            {
+                CategoryId = (await App.Database.SQLiteDatabase.FindAsync<Category>(c => c.Name == Database.GetUndeletableCategory())).IdCategory;
+            }
         }
 
         private void SortAndShow()
@@ -158,7 +177,8 @@ namespace XamarinToDoList
             }
             else
             {
-                categoryName = (await App.Database.GetItemCategory(CategoryId.Value)).Name;
+                var factName = (await App.Database.GetItemCategory(CategoryId.Value)).Name;
+                categoryName = factName.Equals(Database.GetUndeletableCategory()) ? "NoCategory from resource" : factName;
             }
             
             Title = categoryName;

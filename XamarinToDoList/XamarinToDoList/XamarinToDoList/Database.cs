@@ -8,7 +8,8 @@ namespace XamarinToDoList
     public class Database
     {
         public readonly SQLiteAsyncConnection SQLiteDatabase;
-        private static String undeletableCategory = "";
+        //todo dont change not resource
+        private static readonly String undeletableCategory = "NoCategory";
 
         public Database(string databasePath)
         {
@@ -17,11 +18,6 @@ namespace XamarinToDoList
             // database.CreateTable<Category>();
             //    database.CreateTable<Task>();
             //   database.CreateTable<Users>();
-        }
-
-        public static void SetUndeletableCategory(string undeletableCategory)
-        {
-            Database.undeletableCategory = undeletableCategory;
         }
 
         public static String GetUndeletableCategory()
