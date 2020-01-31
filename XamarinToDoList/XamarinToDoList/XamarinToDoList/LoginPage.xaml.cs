@@ -40,7 +40,6 @@ namespace XamarinToDoList
                 await Navigation.PushAsync(categPage);
                 */
                 //   App.Database.SaveItemUser(user[0]);
-
             }
             /*    else
                 {
