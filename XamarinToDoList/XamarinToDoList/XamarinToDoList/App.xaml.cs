@@ -29,7 +29,7 @@ namespace XamarinToDoList
         {
             InitializeComponent();
 
-            MainPage = new NavigationPage(LoginPage());
+            MainPage = new NavigationPage(new LoginPage());
         }
 
         protected override void OnStart()
