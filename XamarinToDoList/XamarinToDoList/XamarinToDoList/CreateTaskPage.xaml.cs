@@ -9,16 +9,16 @@ namespace XamarinToDoList
     public partial class CreateTaskPage : ContentPage
     {
         private readonly string userId;
-        private readonly int? categoryId;
+        private readonly int categoryId;
         private readonly bool all;
 
-        public CreateTaskPage(string idUser, int? idCategory, bool all)
+        public CreateTaskPage(string userId, int categoryId, bool all)
         {
             InitializeComponent();
             InitializeText();
 
-            this.userId = idUser;
-            this.categoryId = idCategory;
+            this.userId = userId;
+            this.categoryId = categoryId;
             this.all = all;
         }
 
@@ -45,12 +45,19 @@ namespace XamarinToDoList
             var name = NameText.Text;
             var datetime = TaskDatePicker.Date.ToString("yyyy-MM-dd") + " " + TaskTimePicker.Time.ToString(@"hh\:mm");
 
-            if (name == "")
-                MainLayout.Children.Add(new Label { Text = "Name should not be empty." });
+            if ((name == "") || name == null)
+            {
+                await App.Current.MainPage.DisplayAlert("Error", "Name should not be empty.", "OK");
+                return;
+            }
 
-            // todo add task to db
-            //if category null - nocategory
-
+            var task = new Task
+            {
+                Name = name,
+                TimeDate = datetime,
+                IdCategory = categoryId
+            };
+            await App.Database.SQLiteDatabase.InsertAsync(task);
 
             await Navigation.PushAsync(new TasksAndMenuDetail(userId, categoryId, all));
         }

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using T = System.Threading.Tasks;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -34,7 +34,7 @@ namespace XamarinToDoList
         //private Menu subMenu;
         #endregion
 
-            //todo remove
+        //todo remove
         public TasksAndMenuDetail()
         {
             TargetType = typeof(TasksAndMenuDetail);
@@ -44,11 +44,12 @@ namespace XamarinToDoList
             InitPage();
         }
 
-        public TasksAndMenuDetail(string userId, int? categoryId, bool all = true)
+        public TasksAndMenuDetail(string userId, int? categoryId, bool all = false)
         {
             InitializeComponent();
             this.UserId = userId;
             this.CategoryId = categoryId;
+            // todo category == null? nocategory
             this.all = all;
             InitPage();
         }
@@ -56,6 +57,9 @@ namespace XamarinToDoList
         public void InitPage()
         {
             InitTasks();
+
+            // todo chouse category id
+            CategoryId = 1;
 
             SetCategoryNameInTitle();
 
@@ -106,6 +110,7 @@ namespace XamarinToDoList
         /// </summary>
         private void InitTasks()
         {
+            // todo get tasks
             tasks.Add(new Task
             {
                 IdTask = 1,
@@ -134,120 +139,6 @@ namespace XamarinToDoList
                 Name = "444",
                 TimeDate = "2021-10-01 11:00"
             });
-
-            #region copies
-            tasks.Add(new Task
-            {
-                IdTask = 1,
-                IdCategory = 1,
-                Name = "111",
-                TimeDate = "2020-01-29 11:00"
-            });
-            tasks.Add(new Task
-            {
-                IdTask = 2,
-                IdCategory = 1,
-                Name = "222",
-                TimeDate = "2020-01-30 11:00"
-            });
-            tasks.Add(new Task
-            {
-                IdTask = 3,
-                IdCategory = 1,
-                Name = "333",
-                TimeDate = "2020-01-31 11:00"
-            });
-            tasks.Add(new Task
-            {
-                IdTask = 4,
-                IdCategory = 1,
-                Name = "444",
-                TimeDate = "2021-10-01 11:00"
-            }); tasks.Add(new Task
-            {
-                IdTask = 1,
-                IdCategory = 1,
-                Name = "111",
-                TimeDate = "2020-01-29 11:00"
-            });
-            tasks.Add(new Task
-            {
-                IdTask = 2,
-                IdCategory = 1,
-                Name = "222",
-                TimeDate = "2020-01-30 11:00"
-            });
-            tasks.Add(new Task
-            {
-                IdTask = 3,
-                IdCategory = 1,
-                Name = "333",
-                TimeDate = "2020-01-31 11:00"
-            });
-            tasks.Add(new Task
-            {
-                IdTask = 4,
-                IdCategory = 1,
-                Name = "444",
-                TimeDate = "2021-10-01 11:00"
-            });
-
-            tasks.Add(new Task
-            {
-                IdTask = 1,
-                IdCategory = 1,
-                Name = "111",
-                TimeDate = "2020-01-29 11:00"
-            });
-            tasks.Add(new Task
-            {
-                IdTask = 2,
-                IdCategory = 1,
-                Name = "222",
-                TimeDate = "2020-01-30 11:00"
-            });
-            tasks.Add(new Task
-            {
-                IdTask = 3,
-                IdCategory = 1,
-                Name = "333",
-                TimeDate = "2020-01-31 11:00"
-            });
-            tasks.Add(new Task
-            {
-                IdTask = 4,
-                IdCategory = 1,
-                Name = "444",
-                TimeDate = "2021-10-01 11:00"
-            }); tasks.Add(new Task
-            {
-                IdTask = 1,
-                IdCategory = 1,
-                Name = "111",
-                TimeDate = "2020-01-29 11:00"
-            });
-            tasks.Add(new Task
-            {
-                IdTask = 2,
-                IdCategory = 1,
-                Name = "222",
-                TimeDate = "2020-01-30 11:00"
-            });
-            tasks.Add(new Task
-            {
-                IdTask = 3,
-                IdCategory = 1,
-                Name = "333",
-                TimeDate = "2020-01-31 11:00"
-            });
-            tasks.Add(new Task
-            {
-                IdTask = 4,
-                IdCategory = 1,
-                Name = "444",
-                TimeDate = "2021-10-01 11:00"
-            });
-            #endregion
 
             tasks.Add(new Task
             {
@@ -258,15 +149,19 @@ namespace XamarinToDoList
             });
         }
 
-        private void SetCategoryNameInTitle()
+        private async T.Task SetCategoryNameInTitle()
         {
-            //todo categotyname
-            /*
-            String catName = all ? getString(R.string.all_tasks) : db.getCategoryNameById(idCategory);
-            catName = (catName.equals(getString(R.string.no_category_in_db))) ? getString(R.string.no_category) : catName;
-            return catName;
-            */
-            Title = CategoryId + UserId;
+            string categoryName;
+            if (all)
+            {
+                categoryName = "All";
+            }
+            else
+            {
+                categoryName = (await App.Database.GetItemCategory(CategoryId.Value)).Name;
+            }
+            
+            Title = categoryName;
         }
 
         private void CancelAlarms()
@@ -378,7 +273,7 @@ namespace XamarinToDoList
 
         private async void OnFabButtonClicked(object sender, EventArgs args)
         {
-            await Navigation.PushAsync(new CreateTaskPage(UserId, CategoryId, all));
+            await Navigation.PushAsync(new CreateTaskPage(UserId, CategoryId.Value, all));
         }
     }
 }

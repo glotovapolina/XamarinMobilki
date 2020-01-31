@@ -13,25 +13,20 @@ namespace XamarinToDoList
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class ChangesCategoryPage : ContentPage
     {
-        CategoryChangesPageVM categoryChangesPageVM;
         string Email;
-        string Pass;
-        public ChangesCategoryPage(string email, string pass)
+        public Type TargetType { get; set; }
+        public ChangesCategoryPage(string email)
         {
             InitializeComponent();
-            categoryChangesPageVM = new CategoryChangesPageVM();
-            BindingContext = categoryChangesPageVM;
             Title = "Список категорий";
             Email = email;
-            Pass = pass;
        //     Category category = new Category("Работа", 1, Email);
         //    App.Database.SaveItemCategory(category);
         }
         protected override async void OnAppearing()
         {
-            
-            categoryList.ItemsSource = await App.Database.GetItemsCategory();
             base.OnAppearing();
+            categoryList.ItemsSource = await App.Database.GetItemsCategory();            
         }
         private void BtnDone_Activated(object sender, EventArgs e)
         {

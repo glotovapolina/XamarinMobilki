@@ -39,10 +39,17 @@ namespace XamarinToDoList
                 InitCategories(userId);
 
                 MenuItems = new ObservableCollection<Page>();
+                // All category
+                MenuItems.Add(new TasksAndMenuDetail(userId, null, true));
+                // Other categories
                 foreach (var category in categories)
                 {
                     MenuItems.Add(new TasksAndMenuDetail(userId, category.IdCategory));
                 }
+                // Create category
+                MenuItems.Add(new CreateCategoryPage(userId));
+                // Change categories
+                MenuItems.Add(new ChangesCategoryPage(userId));
             }
 
             #region INotifyPropertyChanged Implementation

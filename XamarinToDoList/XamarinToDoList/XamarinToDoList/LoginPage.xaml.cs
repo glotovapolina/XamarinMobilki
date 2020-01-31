@@ -28,23 +28,23 @@ namespace XamarinToDoList
             await App.Database.CreateTableTask();
            
 
-            List<Users> user = await App.Database.GetItemsUsers();
+            List<Users> users = await App.Database.GetItemsUsers();
 
-            if (user.Count != 0)
+            if (users.Count != 0)
             {
-                TasksAndMenu page = new TasksAndMenu(user[0].Email);
+                TasksAndMenu page = new TasksAndMenu(users[0].Email);
                 await Navigation.PushModalAsync(page);
                 /*
-                ChangesCategoryPage categPage = new ChangesCategoryPage(user[0].Email, user[0].Password);
-                categPage.BindingContext = user;
+                ChangesCategoryPage categPage = new ChangesCategoryPage(users[0].Email, users[0].Password);
+                categPage.BindingContext = users;
                 await Navigation.PushAsync(categPage);
                 */
-                //   App.Database.SaveItemUser(user[0]);
+                //   App.Database.SaveItemUser(users[0]);
             }
             /*    else
                 {
-                    WelcomePage welcPage = new WelcomePage(user[0].Email,user[0].Password);
-                    welcPage.BindingContext = user;
+                    WelcomePage welcPage = new WelcomePage(users[0].Email,users[0].Password);
+                    welcPage.BindingContext = users;
                     Navigation.PushAsync(welcPage);
                 }*/
             base.OnAppearing();

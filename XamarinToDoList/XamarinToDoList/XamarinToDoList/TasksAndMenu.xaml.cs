@@ -27,7 +27,7 @@ namespace XamarinToDoList
 
         private void ListView_ItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
-            var item = e.SelectedItem as TasksAndMenuDetail;
+            var item = e.SelectedItem as ContentPage;
             if (item == null)
                 return;
 
