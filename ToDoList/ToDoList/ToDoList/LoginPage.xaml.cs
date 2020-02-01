@@ -37,7 +37,7 @@ namespace ToDoList
             if (user.Count != 0)
             {
                 ChangesCategoryPage categPage = new ChangesCategoryPage(user[0].Email, user[0].Password);
-                categPage.BindingContext = user;
+                //categPage.BindingContext = user;
                 await Navigation.PushAsync(categPage);
                 //   App.Database.SaveItemUser(user[0]);
 

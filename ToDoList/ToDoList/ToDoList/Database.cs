@@ -31,7 +31,7 @@ namespace ToDoList
             await database.CreateTableAsync<Users>();
         }
 
-        public async Task<IEnumerable<Category>> GetItemsCategory()
+        public async Task<List<Category>> GetItemsCategory()
         {
             return await database.Table<Category>().ToListAsync();
         }
