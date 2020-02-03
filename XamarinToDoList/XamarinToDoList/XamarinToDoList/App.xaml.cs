@@ -26,13 +26,13 @@ namespace XamarinToDoList
 
         public App()
         {
-            // todo clean
             InitializeComponent();
-            /*
-            Database.SQLiteDatabase.DeleteAllAsync<Task>();
-            Database.SQLiteDatabase.DeleteAllAsync<Category>();
-            */
             MainPage = new NavigationPage(new LoginPage());
+        }
+
+        public void SetMain(Page page)
+        {
+            MainPage = new NavigationPage(page);
         }
 
         protected override void OnStart()

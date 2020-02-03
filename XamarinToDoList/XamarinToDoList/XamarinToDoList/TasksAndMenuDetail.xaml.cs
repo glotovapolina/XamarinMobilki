@@ -42,7 +42,6 @@ namespace XamarinToDoList
             return page;
         }
 
-        //todo remove
         public TasksAndMenuDetail()
         {
             TargetType = typeof(TasksAndMenuDetail);
@@ -60,13 +59,12 @@ namespace XamarinToDoList
         {
             this.UserId = userId;
             this.CategoryId = categoryId;
-            // todo category == null? nocategory
             this.all = all;
         }
 
         public async T.Task InitPage()
         {
-            InitTasks();
+            await InitTasks();
 
             await SetCategoryId();
 
@@ -77,10 +75,6 @@ namespace XamarinToDoList
 
         private async T.Task SetCategoryId()
         {
-            // todo clean
-            var count = (await App.Database.GetItemsCategory()).Count();
-            var cat = await App.Database.SQLiteDatabase.Table<Category>().ToListAsync();
-
             if (all)
             {
                 var undeletableName = Database.UndeletableCategory;
@@ -133,7 +127,8 @@ namespace XamarinToDoList
         /// </summary>
         private async T.Task InitTasks()
         {
-            // todo get tasks
+            // check clean get tasks
+            var tr = await App.Database.SQLiteDatabase.Table<Task>().ToListAsync();
             var userCategories = await App.Database.SQLiteDatabase.Table<Category>().Where(c => c.IdUser == UserId).ToListAsync();
             var categoriesIds = userCategories.Select(c => c.IdCategory).ToList();
             tasks = await App.Database.SQLiteDatabase.Table<Task>().Where(t => categoriesIds.Contains(t.IdCategory)).ToListAsync();
@@ -179,18 +174,18 @@ namespace XamarinToDoList
         {
             if (e.Value)
             {
+                var taskToDelete = checkboxTaskPairs[((CheckBox)sender).Id];
                 CancelAlarms();
 
+                // check Delete task from db
+                App.Database.DeleteItemTask(taskToDelete.IdTask);
+
                 // Remove task from local list of tasks
-                tasks.Remove(checkboxTaskPairs[((CheckBox)sender).Id]);
+                tasks.Remove(taskToDelete);
 
                 // Remove element from view
                 var stack = (StackLayout)((CheckBox)sender).Parent;
                 ListLayout.Children.Remove(stack);
-                
-
-                // Delete task from db
-                // todo
 
                 SortAndShow();
             }

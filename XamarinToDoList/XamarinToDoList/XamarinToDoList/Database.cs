@@ -8,7 +8,7 @@ namespace XamarinToDoList
     public class Database
     {
         public readonly SQLiteAsyncConnection SQLiteDatabase;
-        //todo dont change not resource
+        // Name for NoCategory in DB, same for all users
         public static readonly String UndeletableCategory = "NoCategory";
 
         public Database(string databasePath)
