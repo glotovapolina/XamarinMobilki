@@ -32,8 +32,8 @@ namespace XamarinToDoList
 
             if (users.Count != 0)
             {
-                TasksAndMenu page = new TasksAndMenu(users[0].Email);
-                await Navigation.PushModalAsync(page);
+                var main = await TasksAndMenu.Create(users[0].Email);
+                await Navigation.PushModalAsync(main);
                 /*
                 ChangesCategoryPage categPage = new ChangesCategoryPage(users[0].Email, users[0].Password);
                 categPage.BindingContext = users;

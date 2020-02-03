@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using T = System.Threading.Tasks;
 
 using Xamarin.Forms;
@@ -34,54 +33,59 @@ namespace XamarinToDoList
         //private Menu subMenu;
         #endregion
 
+        public static async T.Task<TasksAndMenuDetail> Create(string userId, int? categoryId, bool all = false)
+        {
+            var page = new TasksAndMenuDetail();
+            page.Set(userId, categoryId, all);
+            await page.InitPage();
+
+            return page;
+        }
+
         //todo remove
         public TasksAndMenuDetail()
         {
             TargetType = typeof(TasksAndMenuDetail);
-
             InitializeComponent();
-            Title = "All";
-            InitPage();
         }
 
         public TasksAndMenuDetail(string userId, int? categoryId, bool all = false)
         {
             InitializeComponent();
+            Set(userId, categoryId, all);
+            InitPage();
+        }
+
+        public void Set(string userId, int? categoryId, bool all = false)
+        {
             this.UserId = userId;
             this.CategoryId = categoryId;
             // todo category == null? nocategory
             this.all = all;
-            InitPage();
         }
 
-        public void InitPage()
+        public async T.Task InitPage()
         {
             InitTasks();
 
-            // todo chouse category id
+            await SetCategoryId();
 
-            SetCategoryId();
-
-            SetCategoryNameInTitle();
+            await SetCategoryNameInTitle();
 
             SortAndShow();
         }
 
         private async T.Task SetCategoryId()
         {
+            // todo clean
             var count = (await App.Database.GetItemsCategory()).Count();
-            if (count == 0)
-            {
-                await App.Database.SaveItemCategory(new Category
-                {
-                    Name = Database.GetUndeletableCategory(),
-                    IdUser = UserId
-                });
-            }
+            var cat = await App.Database.SQLiteDatabase.Table<Category>().ToListAsync();
 
             if (all)
             {
-                CategoryId = (await App.Database.SQLiteDatabase.FindAsync<Category>(c => c.Name == Database.GetUndeletableCategory())).IdCategory;
+                var undeletableName = Database.UndeletableCategory;
+                var undeletableCategory = await App.Database.SQLiteDatabase.FindAsync<Category>(c => c.Name == undeletableName);
+                CategoryId = undeletableCategory.IdCategory;
             }
         }
 
@@ -127,45 +131,12 @@ namespace XamarinToDoList
         /// <summary>
         /// Все таски пользователя по всем категориям
         /// </summary>
-        private void InitTasks()
+        private async T.Task InitTasks()
         {
             // todo get tasks
-            tasks.Add(new Task
-            {
-                IdTask = 1,
-                IdCategory = 1,
-                Name = "111",
-                TimeDate = "2020-01-29 11:00"
-            });
-            tasks.Add(new Task
-            {
-                IdTask = 2,
-                IdCategory = 1,
-                Name = "222",
-                TimeDate = "2020-01-30 11:00"
-            });
-            tasks.Add(new Task
-            {
-                IdTask = 3,
-                IdCategory = 1,
-                Name = "333",
-                TimeDate = "2020-01-31 11:00"
-            });
-            tasks.Add(new Task
-            {
-                IdTask = 4,
-                IdCategory = 1,
-                Name = "444",
-                TimeDate = "2021-10-01 11:00"
-            });
-
-            tasks.Add(new Task
-            {
-                IdTask = 5,
-                IdCategory = 2,
-                Name = "555",
-                TimeDate = "2020-10-01 11:00"
-            });
+            var userCategories = await App.Database.SQLiteDatabase.Table<Category>().Where(c => c.IdUser == UserId).ToListAsync();
+            var categoriesIds = userCategories.Select(c => c.IdCategory).ToList();
+            tasks = await App.Database.SQLiteDatabase.Table<Task>().Where(t => categoriesIds.Contains(t.IdCategory)).ToListAsync();
         }
 
         private async T.Task SetCategoryNameInTitle()
@@ -178,7 +149,8 @@ namespace XamarinToDoList
             else
             {
                 var factName = (await App.Database.GetItemCategory(CategoryId.Value)).Name;
-                categoryName = factName.Equals(Database.GetUndeletableCategory()) ? "NoCategory from resource" : factName;
+                var undelName = Database.UndeletableCategory;
+                categoryName = factName.Equals(undelName) ? "NoCategory from resource" : factName;
             }
             
             Title = categoryName;

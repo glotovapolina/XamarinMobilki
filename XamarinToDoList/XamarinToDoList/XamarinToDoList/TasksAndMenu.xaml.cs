@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using T = System.Threading.Tasks;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -12,17 +12,24 @@ namespace XamarinToDoList
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class TasksAndMenu : MasterDetailPage
     {
-        public TasksAndMenu(string userId)
+        public TasksAndMenu()
         {
-            InitializeComponent();
-            MasterPage.SetMenu(userId);
+            InitializeComponent();            
+        }
 
-            MasterPage.ListView.ItemSelected += ListView_ItemSelected;
+        public static async T.Task<TasksAndMenu> Create(string userId)
+        {
+            var main = new TasksAndMenu();
+            await main.MasterPage.SetMenu(userId);
 
-            var detail = (TasksAndMenuDetail)((NavigationPage)Detail).RootPage;
+            main.MasterPage.ListView.ItemSelected += main.ListView_ItemSelected;
+
+            var detail = (TasksAndMenuDetail)((NavigationPage)main.Detail).RootPage;
             detail.UserId = userId;
             detail.CategoryId = null;
-            detail.InitPage();
+            await detail.InitPage();
+
+            return main;
         }
 
         private void ListView_ItemSelected(object sender, SelectedItemChangedEventArgs e)

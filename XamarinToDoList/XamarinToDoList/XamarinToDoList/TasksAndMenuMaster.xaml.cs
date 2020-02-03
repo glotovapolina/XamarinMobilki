@@ -4,8 +4,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
+using T = System.Threading.Tasks;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -22,9 +21,10 @@ namespace XamarinToDoList
             InitializeComponent();
         }
 
-        public void SetMenu(string userId)
+        public async T.Task SetMenu(string userId)
         {
-            BindingContext = new TasksAndMenuMasterViewModel(userId);
+            var masterVM = await TasksAndMenuMasterViewModel.Create(userId);
+            BindingContext = masterVM;
             ListView = MenuItemsListView;
         }
 
@@ -34,22 +34,11 @@ namespace XamarinToDoList
             private List<Category> categories = new List<Category>();
             public ObservableCollection<Page> MenuItems { get; set; }
 
-            public TasksAndMenuMasterViewModel(string userId)
+            public static async T.Task<TasksAndMenuMasterViewModel> Create(string userId)
             {
-                InitCategories(userId);
-
-                MenuItems = new ObservableCollection<Page>();
-                // All category
-                MenuItems.Add(new TasksAndMenuDetail(userId, null, true));
-                // Other categories
-                foreach (var category in categories)
-                {
-                    MenuItems.Add(new TasksAndMenuDetail(userId, category.IdCategory));
-                }
-                // Create category
-                MenuItems.Add(new CreateCategoryPage(userId));
-                // Change categories
-                MenuItems.Add(new ChangesCategoryPage(userId));
+                var vm = new TasksAndMenuMasterViewModel();
+                await vm.InitMaster(userId);
+                return vm;
             }
 
             #region INotifyPropertyChanged Implementation
@@ -63,25 +52,45 @@ namespace XamarinToDoList
             }
             #endregion
 
+            public async T.Task InitMaster(string userId)
+            {
+                await InitCategories(userId);
+
+                MenuItems = new ObservableCollection<Page>();
+                // All category
+                var allCategories = await TasksAndMenuDetail.Create(userId, null, true);
+                MenuItems.Add(allCategories);
+                // Other categories
+                foreach (var category in categories)
+                {
+                    var otherCategory = await TasksAndMenuDetail.Create(userId, category.IdCategory, false);
+                    MenuItems.Add(otherCategory);
+                }
+                // Create category
+                MenuItems.Add(new CreateCategoryPage(userId));
+                // Change categories
+                MenuItems.Add(new ChangesCategoryPage(userId));
+            }
+
             /// <summary>
             /// Все категории пользователя
             /// </summary>
-            private void InitCategories(string userId)
+            private async T.Task InitCategories(string userId)
             {
-                // todo load cetegories 
+                // Add NoCategory
+                if ((await App.Database.SQLiteDatabase.Table<Category>().Where(c => c.IdUser == userId).CountAsync() == 0)
+                    || (await App.Database.SQLiteDatabase.Table<Category>().Where(c => c.Name == Database.UndeletableCategory).CountAsync() == 0))
+                {
+                    await App.Database.SaveItemCategory(new Category
+                    {
+                        Name = Database.UndeletableCategory,
+                        IdUser = userId
+                    });
 
-                categories.Add(new Category
-                {
-                    IdCategory = 1,
-                    Name = "c111",
-                    IdUser = "1"
-                });
-                categories.Add(new Category
-                {
-                    IdCategory = 2,
-                    Name = "c222",
-                    IdUser = "1"
-                });
+                }
+
+                // Load categories
+                categories = await App.Database.SQLiteDatabase.Table<Category>().Where(c => c.IdUser == userId).ToListAsync();
             }
         }
     }

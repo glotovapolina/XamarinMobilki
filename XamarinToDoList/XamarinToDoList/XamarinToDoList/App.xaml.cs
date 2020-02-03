@@ -8,7 +8,7 @@ namespace XamarinToDoList
     public partial class App : Application
     {
         public const string DATABASE_NAME = "database.db";
-        public static Database database;
+        private static Database database;
 
         public static Database Database
         {
@@ -16,7 +16,6 @@ namespace XamarinToDoList
             {
                 if (database == null)
                 {
-
                     database = new Database(
                         Path.Combine(
                             Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), DATABASE_NAME));
@@ -27,8 +26,12 @@ namespace XamarinToDoList
 
         public App()
         {
+            // todo clean
             InitializeComponent();
-
+            /*
+            Database.SQLiteDatabase.DeleteAllAsync<Task>();
+            Database.SQLiteDatabase.DeleteAllAsync<Category>();
+            */
             MainPage = new NavigationPage(new LoginPage());
         }
 

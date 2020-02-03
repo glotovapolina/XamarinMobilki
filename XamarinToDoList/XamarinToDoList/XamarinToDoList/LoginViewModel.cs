@@ -81,7 +81,8 @@ namespace XamarinToDoList
                             else
                             {
                                 // await App.Current.MainPage.Navigation.PushAsync(new ChangesCategoryPage(Email, Password));
-                                await App.Current.MainPage.Navigation.PushAsync(new TasksAndMenu(user1.Email));
+                                var main = await TasksAndMenu.Create(user1.Email);
+                                await App.Current.MainPage.Navigation.PushModalAsync(main);
                             }
                         }
                         catch (Exception e)
@@ -132,9 +133,10 @@ namespace XamarinToDoList
                         if (user)
                         {
                             await App.Current.MainPage.DisplayAlert("SignUp Success", "", "Ok");
-                            //Navigate to Wellcom page after successfuly SignUp    
-                            //pass user email to welcom page    
-                            await App.Current.MainPage.Navigation.PushAsync(new TasksAndMenu(Email));
+                        //Navigate to Wellcom page after successfuly SignUp    
+                        //pass user email to welcom page
+                        var main = await TasksAndMenu.Create(Email);
+                        await App.Current.MainPage.Navigation.PushModalAsync(main);
                         }
                         else
                             await App.Current.MainPage.DisplayAlert("Error", "SignUp Fail", "OK");

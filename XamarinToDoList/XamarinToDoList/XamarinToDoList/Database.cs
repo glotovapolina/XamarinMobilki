@@ -9,7 +9,7 @@ namespace XamarinToDoList
     {
         public readonly SQLiteAsyncConnection SQLiteDatabase;
         //todo dont change not resource
-        private static readonly String undeletableCategory = "NoCategory";
+        public static readonly String UndeletableCategory = "NoCategory";
 
         public Database(string databasePath)
         {
@@ -22,7 +22,7 @@ namespace XamarinToDoList
 
         public static String GetUndeletableCategory()
         {
-            return undeletableCategory;
+            return UndeletableCategory;
         }
         public async T.Task CreateTableCategory()
         {

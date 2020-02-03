@@ -44,7 +44,8 @@ namespace XamarinToDoList
             };
             await App.Database.SQLiteDatabase.InsertAsync(category);
 
-            await Navigation.PushAsync(new TasksAndMenuDetail(userId, null, true));
+            var mainPage = await TasksAndMenuDetail.Create(userId, null, true);
+            await Navigation.PushAsync(mainPage);
         }
     }
 }
