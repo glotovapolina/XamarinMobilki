@@ -48,11 +48,10 @@ namespace XamarinToDoList
             InitializeComponent();
         }
 
-        public TasksAndMenuDetail(string userId, int? categoryId, bool all = false)
+        protected override async void OnAppearing()
         {
-            InitializeComponent();
-            Set(userId, categoryId, all);
-            InitPage();
+            base.OnAppearing();
+            await InitPage();
         }
 
         public void Set(string userId, int? categoryId, bool all = false)
@@ -223,23 +222,19 @@ namespace XamarinToDoList
             {
                 Text = timeline,
                 FontSize = 20,
-                // Todo otherday color
                 TextColor = Color.DarkGray
             };
 
             if (timeline == Task.TODAY)
             {
-                // Todo accent color instead of blue
                 timelineNameLabel.TextColor = Color.CornflowerBlue;
             }
             else if (timeline == Task.EXPIRED)
             {
-                // Todo expired color instead of red
                 timelineNameLabel.TextColor = Color.Red;
             }
             else if (timeline == Task.TOMORROW)
             {
-                // Todo tomorrow color instead of red
                 timelineNameLabel.TextColor = Color.DarkSlateBlue;
             }
 

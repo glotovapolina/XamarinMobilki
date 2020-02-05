@@ -70,6 +70,8 @@ namespace XamarinToDoList
                 MenuItems.Add(new CreateCategoryPage(userId));
                 // Change categories
                 MenuItems.Add(new ChangesCategoryPage(userId));
+                // Settings
+                MenuItems.Add(new Settings(userId));
             }
 
             /// <summary>

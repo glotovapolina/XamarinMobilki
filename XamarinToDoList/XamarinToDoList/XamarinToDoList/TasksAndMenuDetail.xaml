@@ -20,9 +20,13 @@
 
             </StackLayout>
         </ScrollView>
-        <Button
+        <ImageButton 
            Grid.Row="1"
-            BackgroundColor="Red"
+            Source="fab.png"
+            HorizontalOptions="End"
+            BorderColor="Transparent"
+            CornerRadius="64"
+            BackgroundColor="Transparent"
             Clicked="OnFabButtonClicked" />
     </Grid>
 </ContentPage>

@@ -84,7 +84,9 @@
     <AndroidResource Include="Resources\mipmap-xxxhdpi\icon.png" />
     <AndroidResource Include="Resources\mipmap-xxxhdpi\launcher_foreground.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\mainicon.png" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\XamarinToDoList\XamarinToDoList.csproj">
       <Project>{5FB88DCF-AD19-48A4-95D7-B3AF38F60F2D}</Project>
@@ -92,13 +94,13 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\drawable\clear.png" />
+    <AndroidResource Include="Resources\drawable\clear.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\drawable\done.png" />
+    <AndroidResource Include="Resources\drawable\done.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\drawable\fab.png" />
+    <AndroidResource Include="Resources\drawable\fab.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
 </Project>

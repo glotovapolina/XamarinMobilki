@@ -23,6 +23,12 @@ namespace XamarinToDoList
         }
         protected override async void OnAppearing()
         {
+            /*
+            await App.Database.SQLiteDatabase.DeleteAllAsync<Users>();
+            await App.Database.SQLiteDatabase.DeleteAllAsync<Category>();
+            await App.Database.SQLiteDatabase.DeleteAllAsync<Task>();
+            */
+
             await App.Database.CreateTableUsers();
             await App.Database.CreateTableCategory();
             await App.Database.CreateTableTask();
