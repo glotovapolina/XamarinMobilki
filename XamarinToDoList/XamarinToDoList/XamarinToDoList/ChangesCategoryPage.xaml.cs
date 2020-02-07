@@ -13,10 +13,8 @@ namespace XamarinToDoList
         public ChangesCategoryPage(string email)
         {
             InitializeComponent();
-            Title = "Список категорий";
+            Title = AppResources.ChangeCategories;
             Email = email;
-       //     Category category = new Category("Работа", 1, Email);
-        //    App.Database.SaveItemCategory(category);
         }
         protected override async void OnAppearing()
         {
@@ -33,13 +31,6 @@ namespace XamarinToDoList
         {
 
         }
-        /* protected override void OnAppearing()
-{
-ToolbarItem.
-base.OnAppearing();
-
-
-}*/
 
     }
 }

@@ -8,10 +8,10 @@ namespace XamarinToDoList
     [Table("Task")]
     public class Task
     {
-        public static readonly string EXPIRED = "EXPIRED";
-        public static readonly string TODAY = "TODAY";
-        public static readonly string TOMORROW = "TOMORROW";
-        public static readonly string LATER = "LATER";
+        public static readonly string EXPIRED = AppResources.EXPIRED;
+        public static readonly string TODAY = AppResources.TODAY;
+        public static readonly string TOMORROW = AppResources.TOMORROW;
+        public static readonly string LATER = AppResources.LATER;
 
         public String Name { get; set; }
         [PrimaryKey, AutoIncrement, Column("_idTask")]

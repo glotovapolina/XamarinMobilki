@@ -1,9 +1,4 @@
-﻿using SQLite;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace XamarinToDoList
+﻿namespace XamarinToDoList
 {
     public interface ISQLite
     {

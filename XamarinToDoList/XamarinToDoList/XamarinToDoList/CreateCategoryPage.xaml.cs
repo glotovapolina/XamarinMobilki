@@ -18,13 +18,13 @@ namespace XamarinToDoList
 
         private void InitializeText()
         {
-            Title = "Create new category";
+            Title = AppResources.CreateNewCategory;
 
-            NameLabel.Text = "What category do you want to create?";
-            NameText.Placeholder = "I want to create category ...";
+            NameLabel.Text = AppResources.NameCategory;
+            NameText.Placeholder = AppResources.NameCategoryPlaceholder;
             NameText.PlaceholderColor = Color.LightGray;
 
-            DoneButton.Text = "Done";
+            DoneButton.Text = AppResources.Done;
         }
 
         private async void OnDoneButtonClicked(object sender, EventArgs args)
@@ -33,7 +33,7 @@ namespace XamarinToDoList
 
             if ((name == "") || name == null)
             {
-                await App.Current.MainPage.DisplayAlert("Error", "Name should not be empty.", "OK");
+                await App.Current.MainPage.DisplayAlert(AppResources.Error, AppResources.ErrorNameEmpty, AppResources.OK);
                 return;
             }
 

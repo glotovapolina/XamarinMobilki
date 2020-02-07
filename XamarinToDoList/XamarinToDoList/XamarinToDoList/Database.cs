@@ -93,11 +93,6 @@ namespace XamarinToDoList
         {
             if (user != null)
             {
-                //  database.Update(user);
-                //   return user.Email.Length;
-                //}
-                // else
-                // {
                 await SQLiteDatabase.InsertAsync(user);
             }
 

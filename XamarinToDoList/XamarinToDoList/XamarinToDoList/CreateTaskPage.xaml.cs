@@ -24,20 +24,20 @@ namespace XamarinToDoList
 
         private void InitializeText()
         {
-            Title = "Create new task";
+            Title = AppResources.CreateTask;
 
-            NameLabel.Text = "What task do you want to plan?";
-            NameText.Placeholder = "I want to do ...";
+            NameLabel.Text = AppResources.TaskName;
+            NameText.Placeholder = AppResources.TaskNamePlaceholder;
             NameText.PlaceholderColor = Color.LightGray;
 
             var now = DateTime.Now;
-            DatePickerLabel.Text = "What day it needs to be done?";
+            DatePickerLabel.Text = AppResources.TaskDate;
             TaskDatePicker.Date = now;
 
-            TimePickerLabel.Text = "At what time that day you want to see notification?";
+            TimePickerLabel.Text = AppResources.TaskTime;
             TaskTimePicker.Time = now.TimeOfDay;
 
-            DoneButton.Text = "Done";
+            DoneButton.Text = AppResources.Done;
         }
 
         private async void OnDoneButtonClicked(object sender, EventArgs args)
@@ -47,7 +47,7 @@ namespace XamarinToDoList
 
             if ((name == "") || name == null)
             {
-                await App.Current.MainPage.DisplayAlert("Error", "Name should not be empty.", "OK");
+                await App.Current.MainPage.DisplayAlert(AppResources.Error, AppResources.ErrorNameEmpty, AppResources.OK);
                 return;
             }
 

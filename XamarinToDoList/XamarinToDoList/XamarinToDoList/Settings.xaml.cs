@@ -15,8 +15,8 @@ namespace XamarinToDoList
         {
             InitializeComponent();
             this.userId = userId;
-            Logout.Text = "Logout";
-            Title = "Settings";
+            Logout.Text = AppResources.Logout;
+            Title = AppResources.Settings;
         }
 
         private async void Logout_Clicked(object sender, EventArgs e)

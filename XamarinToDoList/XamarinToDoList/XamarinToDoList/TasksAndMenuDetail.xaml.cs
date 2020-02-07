@@ -20,15 +20,8 @@ namespace XamarinToDoList
         public int? CategoryId = null;
         #endregion
 
-        #region New task
-        private String description;
-        private String nameCategory;
-        private DateTime? datetime = null;
-        #endregion
-
         #region For tasks and categories
         private List<Task> tasks = new List<Task>();
-        private List<Category> categories = new List<Category>();
         private Dictionary<Guid, Task> checkboxTaskPairs = new Dictionary<Guid, Task>();
         // private ArrayMap<Integer, String> menuCategory = new ArrayMap<>();
         //private Menu subMenu;
@@ -143,13 +136,13 @@ namespace XamarinToDoList
             string categoryName;
             if (all)
             {
-                categoryName = "All";
+                categoryName = AppResources.All;
             }
             else
             {
                 var factName = (await App.Database.GetItemCategory(CategoryId.Value)).Name;
                 var undelName = Database.UndeletableCategory;
-                categoryName = factName.Equals(undelName) ? "NoCategory from resource" : factName;
+                categoryName = factName.Equals(undelName) ? AppResources.NoCategory : factName;
             }
 
             Title = categoryName;
@@ -168,7 +161,7 @@ namespace XamarinToDoList
             foreach (var t in tasks)
             {
                 if (t.DateTimeOfTask > DateTime.Now)
-                    CrossLocalNotifications.Current.Show(t.Name, "Click on task to view your ToDoList...", t.IdTask, t.DateTimeOfTask);
+                    CrossLocalNotifications.Current.Show(t.Name, AppResources.NotificationText, t.IdTask, t.DateTimeOfTask);
             }
         }
 

@@ -17,9 +17,13 @@ namespace XamarinToDoList
         public LoginPage ()
 		{
 			InitializeComponent ();
-            Title = "Authentication";
+            Title = AppResources.Authentication;
             loginViewModel = new LoginViewModel();
             BindingContext = loginViewModel;
+            Email.Placeholder = AppResources.Email;
+            Password.Placeholder = AppResources.Password;
+            registbtn.Text = AppResources.SignUp;
+            loginbtn.Text = AppResources.Login;
         }
         protected override async void OnAppearing()
         {
