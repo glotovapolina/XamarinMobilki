@@ -5,6 +5,7 @@ using T = System.Threading.Tasks;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using Plugin.LocalNotifications;
 
 namespace XamarinToDoList
 {
@@ -77,7 +78,9 @@ namespace XamarinToDoList
             if (all)
             {
                 var undeletableName = Database.UndeletableCategory;
-                var undeletableCategory = await App.Database.SQLiteDatabase.FindAsync<Category>(c => c.Name == undeletableName);
+                var undeletableCategory = await App.Database.SQLiteDatabase
+                    .FindAsync<Category>(c => 
+                    (c.Name == undeletableName) && (c.IdUser == UserId));
                 CategoryId = undeletableCategory.IdCategory;
             }
         }
@@ -88,8 +91,10 @@ namespace XamarinToDoList
             string currentState = "";
 
             ListLayout.Children.Clear();
-            
+
+            CancelAlarms();
             SetAlarms();
+
             SelectTasksInCurrentCategory();
 
             tasks = Task.SortFromSoonToLater(tasks);
@@ -146,20 +151,24 @@ namespace XamarinToDoList
                 var undelName = Database.UndeletableCategory;
                 categoryName = factName.Equals(undelName) ? "NoCategory from resource" : factName;
             }
-            
+
             Title = categoryName;
         }
 
         private void CancelAlarms()
         {
-            //cancel alarms
+            foreach (var t in tasks)
+            {
+                CrossLocalNotifications.Current.Cancel(t.IdTask);
+            }
         }
 
         private void SetAlarms()
         {
-            foreach(var task in tasks)
+            foreach (var t in tasks)
             {
-                //set alarm
+                if (t.DateTimeOfTask > DateTime.Now)
+                    CrossLocalNotifications.Current.Show(t.Name, "Click on task to view your ToDoList...", t.IdTask, t.DateTimeOfTask);
             }
         }
 
@@ -174,7 +183,8 @@ namespace XamarinToDoList
             if (e.Value)
             {
                 var taskToDelete = checkboxTaskPairs[((CheckBox)sender).Id];
-                CancelAlarms();
+
+                CrossLocalNotifications.Current.Cancel(taskToDelete.IdTask);
 
                 // check Delete task from db
                 App.Database.DeleteItemTask(taskToDelete.IdTask);
@@ -216,7 +226,7 @@ namespace XamarinToDoList
             return checkboxAndLabelsLayout;
         }
 
-        private Label CreateTimelineLabel (string timeline)
+        private Label CreateTimelineLabel(string timeline)
         {
             Label timelineNameLabel = new Label
             {

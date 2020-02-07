@@ -34,7 +34,7 @@ namespace XamarinToDoList
         }
         public async T.Task CreateTableUsers()
         {
-            await SQLiteDatabase.CreateTableAsync<Users>();
+            await SQLiteDatabase.CreateTableAsync<User>();
         }
 
         public async T.Task<IEnumerable<Category>> GetItemsCategory()
@@ -45,9 +45,9 @@ namespace XamarinToDoList
         {
             return await SQLiteDatabase.Table<Task>().ToListAsync();
         }
-        public async T.Task<List<Users>> GetItemsUsers()
+        public async T.Task<List<User>> GetItemsUsers()
         {
-            return await SQLiteDatabase.Table<Users>().ToListAsync();
+            return await SQLiteDatabase.Table<User>().ToListAsync();
         }
         public async T.Task<Category> GetItemCategory(int id)
         {
@@ -89,7 +89,7 @@ namespace XamarinToDoList
                 return await SQLiteDatabase.InsertAsync(task);
             }
         }
-        public async void SaveItemUser(Users user)
+        public async void SaveItemUser(User user)
         {
             if (user != null)
             {
@@ -102,11 +102,11 @@ namespace XamarinToDoList
             }
 
         }
-        public async T.Task<Users> GetItemUser(string email)
+        public async T.Task<User> GetItemUser(string email)
         {
             try
             {
-                return await SQLiteDatabase.GetAsync<Users>(email);
+                return await SQLiteDatabase.GetAsync<User>(email);
             }
             catch (Exception e)
             {

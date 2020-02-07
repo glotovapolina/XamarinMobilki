@@ -1,11 +1,9 @@
-﻿using System;
-
+﻿
 using Android.App;
 using Android.Content.PM;
 using Android.Runtime;
-using Android.Views;
-using Android.Widget;
 using Android.OS;
+using Plugin.LocalNotifications;
 
 namespace XamarinToDoList.Droid
 {
@@ -14,6 +12,7 @@ namespace XamarinToDoList.Droid
     {
         protected override void OnCreate(Bundle savedInstanceState)
         {
+            LocalNotificationsImplementation.NotificationIconId = Resource.Drawable.label;
             TabLayoutResource = Resource.Layout.Tabbar;
             ToolbarResource = Resource.Layout.Toolbar;
 

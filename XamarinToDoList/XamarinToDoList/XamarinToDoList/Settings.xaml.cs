@@ -2,6 +2,7 @@
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using T = System.Threading.Tasks;
 
 namespace XamarinToDoList
 {
@@ -18,9 +19,11 @@ namespace XamarinToDoList
             Title = "Settings";
         }
 
-        private void Logout_Clicked(object sender, EventArgs e)
+        private async void Logout_Clicked(object sender, EventArgs e)
         {
-
+            var user = await App.Database.GetItemUser(userId);
+            await App.Database.SQLiteDatabase.DeleteAsync(user);
+            await Navigation.PushAsync(new LoginPage());
         }
     }
 }
