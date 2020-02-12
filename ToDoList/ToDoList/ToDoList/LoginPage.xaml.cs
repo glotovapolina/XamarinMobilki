@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using XamarinToDoList;
 
 namespace ToDoList
 {
@@ -16,39 +17,32 @@ namespace ToDoList
         LoginViewModel loginViewModel;
         public LoginPage ()
 		{
-			InitializeComponent ();
-            Title = "Authentication";
+            InitializeComponent();
+            Title = AppResources.Authentication;
             loginViewModel = new LoginViewModel();
             BindingContext = loginViewModel;
-          
-
-          
-            
+            Email.Placeholder = AppResources.Email;
+            Password.Placeholder = AppResources.Password;
+            registbtn.Text = AppResources.SignUp;
+            loginbtn.Text = AppResources.Login;
         }
         protected override async void OnAppearing()
         {
+            base.OnAppearing();
+
             await App.Database.CreateTableUsers();
             await App.Database.CreateTableCategory();
             await App.Database.CreateTableTask();
            
 
-            List<Users> user = await App.Database.GetItemsUsers();
+            List<User> user = await App.Database.GetItemsUsers();
 
             if (user.Count != 0)
             {
-                ChangesCategoryPage categPage = new ChangesCategoryPage(user[0].Email, user[0].Password);
-                categPage.BindingContext = user;
-                await Navigation.PushAsync(categPage);
-                //   App.Database.SaveItemUser(user[0]);
-
+                var main = await TasksAndMenu.Create(user[0].Email);
+                await Navigation.PushModalAsync(main);
             }
-            /*    else
-                {
-                    WelcomePage welcPage = new WelcomePage(user[0].Email,user[0].Password);
-                    welcPage.BindingContext = user;
-                    Navigation.PushAsync(welcPage);
-                }*/
-            base.OnAppearing();
+            
         }
     }
 }

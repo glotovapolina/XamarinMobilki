@@ -15,7 +15,7 @@ namespace ToDoList.Droid
 {
     public class HelperAndroid
     {
-        bool flag = true;
+      //  bool flag = true;
         public void createDatabaseAndroid()
         {
 

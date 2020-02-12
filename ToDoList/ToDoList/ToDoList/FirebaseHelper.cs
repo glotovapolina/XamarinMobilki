@@ -15,14 +15,14 @@ namespace ToDoList
         public static FirebaseClient firebase = new FirebaseClient("https://todolistxamarin-29df2.firebaseio.com/");
 
         //Read All    
-        public static async Task<List<Users>> GetAllUser()
+        public static async Task<List<User>> GetAllUser()
         {
             try
             {
                 var userlist = (await firebase
                 .Child("Users")
-                .OnceAsync<Users>()).Select(item =>
-                new Users
+                .OnceAsync<User>()).Select(item =>
+                new User
                 {
                     Email = item.Object.Email,
                     Password = item.Object.Password
@@ -37,14 +37,14 @@ namespace ToDoList
         }
 
         //Read     
-        public static async Task<Users> GetUser(string email)
+        public static async Task<User> GetUser(string email)
         {
             try
             {
                 var allUsers = await GetAllUser();
                 await firebase
                 .Child("Users")
-                .OnceAsync<Users>();
+                .OnceAsync<User>();
                 return allUsers.Where(a => a.Email == email).FirstOrDefault();
             }
             catch (Exception e)
@@ -63,7 +63,7 @@ namespace ToDoList
 
                 await firebase
                 .Child("Users")
-                .PostAsync(new Users() { Email = email, Password = password });
+                .PostAsync(new User() { Email = email, Password = password });
                 return true;
             }
             catch (Exception e)
@@ -82,11 +82,11 @@ namespace ToDoList
 
                 var toUpdateUser = (await firebase
                 .Child("Users")
-                .OnceAsync<Users>()).Where(a => a.Object.Email == email).FirstOrDefault();
+                .OnceAsync<User>()).Where(a => a.Object.Email == email).FirstOrDefault();
                 await firebase
                 .Child("Users")
                 .Child(toUpdateUser.Key)
-                .PutAsync(new Users() { Email = email, Password = password });
+                .PutAsync(new User() { Email = email, Password = password });
                 return true;
             }
             catch (Exception e)
@@ -105,7 +105,7 @@ namespace ToDoList
 
                 var toDeletePerson = (await firebase
                 .Child("Users")
-                .OnceAsync<Users>()).Where(a => a.Object.Email == email).FirstOrDefault();
+                .OnceAsync<User>()).Where(a => a.Object.Email == email).FirstOrDefault();
                 await firebase.Child("Users").Child(toDeletePerson.Key).DeleteAsync();
                 return true;
             }

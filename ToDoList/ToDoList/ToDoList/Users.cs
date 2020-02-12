@@ -6,7 +6,7 @@ using System.Text;
 namespace ToDoList
 {
     [Table("Users")]
-    public class Users
+    public class User
     {
         [PrimaryKey, Column("Email")]
         public string Email { get; set; }

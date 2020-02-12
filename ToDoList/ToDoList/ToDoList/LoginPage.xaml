@@ -3,21 +3,24 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ToDoList.LoginPage">
     <ContentPage.Content>
-        <StackLayout>
-            <Entry x:Name = "Email" Placeholder = "Email" Text="{Binding Email}"  
+        <StackLayout Padding="10">
+            <StackLayout Padding="10">
+                <Entry x:Name = "Email" Text="{Binding Email}"  
                    HeightRequest = "40"  
                    Keyboard = "Email"/>
-            <Entry x:Name = "Password" Text="{Binding Password}" Placeholder = "Password"  
+                <Entry x:Name = "Password" Text="{Binding Password}"
                    HeightRequest = "40"  
                    IsPassword = "True"/>
-            <Button x:Name= "loginbtn" Text = "Login "   
+            </StackLayout>
+            <StackLayout Padding="10">
+                <Button x:Name= "loginbtn" 
                     Command="{Binding LoginCommand}"  
                     HorizontalOptions = "FillAndExpand"/>
-            <Button x:Name= "registbtn" Text = "Registration "   
+                <Button x:Name= "registbtn"  
                     Command="{Binding SignUpCommand}"  
                     HorizontalOptions = "FillAndExpand"/>
-            
-           
+            </StackLayout>
+
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

@@ -2,111 +2,115 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Threading.Tasks;
+using T = System.Threading.Tasks;
+
 
 namespace ToDoList
 {
-    public  class Database
+    public class Database
     {
-        SQLiteAsyncConnection database;
-     
+        public readonly SQLiteAsyncConnection SQLiteDatabase;
+        // Name for NoCategory in DB, same for all users
+        public static readonly String UndeletableCategory = "NoCategory";
+
         public Database(string databasePath)
         {
-            database = new SQLiteAsyncConnection(databasePath);
+            SQLiteDatabase = new SQLiteAsyncConnection(databasePath);
 
-           // database.CreateTable<Category>();
-        //    database.CreateTable<Task>();
-         //   database.CreateTable<Users>();
-        }
-        public async System.Threading.Tasks.Task CreateTableCategory()
-        {
-            await database.CreateTableAsync<Category>();
-        }
-        public async System.Threading.Tasks.Task CreateTableTask()
-        {
-            await database.CreateTableAsync<Task>();
-        }
-        public async System.Threading.Tasks.Task CreateTableUsers()
-        {
-            await database.CreateTableAsync<Users>();
+            // database.CreateTable<Category>();
+            //    database.CreateTable<Task>();
+            //   database.CreateTable<Users>();
         }
 
-        public async Task<IEnumerable<Category>> GetItemsCategory()
+        public static String GetUndeletableCategory()
         {
-            return await database.Table<Category>().ToListAsync();
+            return UndeletableCategory;
         }
-        public async Task<List<ToDoList.Task>> GetItemsTask()
+        public async T.Task CreateTableCategory()
         {
-            return await database.Table<Task>().ToListAsync();
+            await SQLiteDatabase.CreateTableAsync<Category>();
         }
-        public async Task<List<Users>> GetItemsUsers()
+        public async T.Task CreateTableTask()
         {
-            return await database.Table<Users>().ToListAsync();
+            await SQLiteDatabase.CreateTableAsync<Task>();
         }
-        public async Task<Category> GetItemCategory(int id)
+        public async T.Task CreateTableUsers()
         {
-            return await database.GetAsync<Category>(id);
+            await SQLiteDatabase.CreateTableAsync<User>();
         }
-        public async System.Threading.Tasks.Task<Task> GetItemTask(int id)
+
+        public async T.Task<IEnumerable<Category>> GetItemsCategory()
         {
-            return await database.GetAsync<Task>(id);
+            return await SQLiteDatabase.Table<Category>().ToListAsync();
         }
-        public async Task<int> DeleteItemCategory(int id)
+        public async T.Task<List<Task>> GetItemsTask()
         {
-            return await database.DeleteAsync<Category>(id);
+            return await SQLiteDatabase.Table<Task>().ToListAsync();
         }
-        public async Task<int> DeleteItemTask(int id)
+        public async T.Task<List<User>> GetItemsUsers()
         {
-            return await database.DeleteAsync<Task>(id);
+            return await SQLiteDatabase.Table<User>().ToListAsync();
         }
-        public async Task<int> SaveItemCategory(Category category)
+        public async T.Task<Category> GetItemCategory(int id)
+        {
+            return await SQLiteDatabase.GetAsync<Category>(id);
+        }
+        public async T.Task<Task> GetItemTask(int id)
+        {
+            return await SQLiteDatabase.GetAsync<Task>(id);
+        }
+        public async T.Task<int> DeleteItemCategory(Category category)
+        {
+            return await SQLiteDatabase.DeleteAsync(category);
+        }
+        public async T.Task<int> DeleteItemTask(int id)
+        {
+            return await SQLiteDatabase.DeleteAsync<Task>(id);
+        }
+        public async T.Task<int> SaveItemCategory(Category category)
         {
             if (category.IdCategory != 0)
             {
-                await database.UpdateAsync(category);
+                await SQLiteDatabase.UpdateAsync(category);
                 return category.IdCategory;
             }
             else
             {
-                return await database.InsertAsync(category);
+                return await SQLiteDatabase.InsertAsync(category);
             }
         }
-        public async Task<int> SaveItemTask(Task task)
+        public async T.Task<int> SaveItemTask(Task task)
         {
             if (task.IdTask != 0)
             {
-                 return await database.InsertAsync(task);
-                
+                return await SQLiteDatabase.InsertAsync(task);
+
             }
             else
             {
-                return await database.InsertAsync(task);
+                return await SQLiteDatabase.InsertAsync(task);
             }
         }
-        public async void SaveItemUser(Users user)
+        public async void SaveItemUser(User user)
         {
             if (user != null)
             {
-                //  database.Update(user);
-                //   return user.Email.Length;
-                //}
-                // else
-                // {
-                await database.InsertAsync(user);
+                await SQLiteDatabase.InsertAsync(user);
             }
-           
+
         }
-        public async Task<Users> GetItemUser(string email)
+        public async T.Task<User> GetItemUser(string email)
         {
             try
             {
-                return await database.GetAsync<Users>(email);
+                return await SQLiteDatabase.GetAsync<User>(email);
             }
             catch (Exception e)
             {
                 string ex = e.StackTrace.ToString();
                 return null;
             }
+
         }
     }
 }

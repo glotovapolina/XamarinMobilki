@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text;
 using Xamarin.Forms;
+using XamarinToDoList;
 
 namespace ToDoList
 {
@@ -65,7 +66,7 @@ namespace ToDoList
                 if (user != null)
                     if (Email == user.Email && Password == user.Password)
                     {
-                        await App.Current.MainPage.DisplayAlert("Login Success", "", "Ok");
+                        //await App.Current.MainPage.DisplayAlert("Login Success", "", "Ok");
                         //Navigate to Wellcom page after successfuly login    
                         //pass user email to welcom page    
                         try
@@ -74,18 +75,15 @@ namespace ToDoList
 
                             if (user1 == null)
                             {
-
                                 App.Database.SaveItemUser(user);
-
                             }
-                            else
-                            {
-                                await App.Current.MainPage.Navigation.PushAsync(new ChangesCategoryPage(Email, Password));
-                            }
+                            // await App.Current.MainPage.Navigation.PushAsync(new ChangesCategoryPage(Email, Password));
+                            var main = await TasksAndMenu.Create(user.Email);
+                            await App.Current.MainPage.Navigation.PushModalAsync(main);
                         }
                         catch (Exception e)
                         {
-                            string ex=e.StackTrace.ToString();
+                            await App.Current.MainPage.DisplayAlert("Login Fail", e.StackTrace.ToString(), "OK");
                         }
                     }
                     else
@@ -100,10 +98,10 @@ namespace ToDoList
             {
                 return new Command(() =>
                 {
-                   // if (Password == ConfirmPassword)
-                        SignUp();
-                   // else
-                     //   App.Current.MainPage.DisplayAlert("", "Password must be same as above!", "OK");
+                    // if (Password == ConfirmPassword)
+                    SignUp();
+                    // else
+                    //   App.Current.MainPage.DisplayAlert("", "Password must be same as above!", "OK");
                 });
             }
         }
@@ -113,33 +111,35 @@ namespace ToDoList
             //call GetUser function which we define in Firebase helper class    
             var user1 = await FirebaseHelper.GetUser(Email);
             //firebase return null valuse if user data not found in database    
-             
-                if (user1!=null) {
-                    await App.Current.MainPage.DisplayAlert("Login Fail", "Such user already exists", "OK");
-                }
+
+            if (user1 != null)
+            {
+                await App.Current.MainPage.DisplayAlert("Login Fail", "Such user already exists", "OK");
+            }
+            else
+            {
+                //null or empty field validation, check weather email and password is null or empty    
+
+                if (string.IsNullOrEmpty(Email) || string.IsNullOrEmpty(Password))
+                    await App.Current.MainPage.DisplayAlert("Empty Values", "Please enter Email and Password", "OK");
                 else
                 {
-                    //null or empty field validation, check weather email and password is null or empty    
-
-                    if (string.IsNullOrEmpty(Email) || string.IsNullOrEmpty(Password))
-                        await App.Current.MainPage.DisplayAlert("Empty Values", "Please enter Email and Password", "OK");
-                    else
+                    //call AddUser function which we define in Firebase helper class    
+                    var user = await FirebaseHelper.AddUser(Email, Password);
+                    //AddUser return true if data insert successfuly     
+                    if (user)
                     {
-                        //call AddUser function which we define in Firebase helper class    
-                        var user = await FirebaseHelper.AddUser(Email, Password);
-                        //AddUser return true if data insert successfuly     
-                        if (user)
-                        {
-                            await App.Current.MainPage.DisplayAlert("SignUp Success", "", "Ok");
-                            //Navigate to Wellcom page after successfuly SignUp    
-                            //pass user email to welcom page    
-                            await App.Current.MainPage.Navigation.PushAsync(new ChangesCategoryPage(Email,Password));
-                        }
-                        else
-                            await App.Current.MainPage.DisplayAlert("Error", "SignUp Fail", "OK");
-
+                        await App.Current.MainPage.DisplayAlert("SignUp Success", "", "Ok");
+                        //Navigate to Wellcom page after successfuly SignUp    
+                        //pass user email to welcom page
+                        var main = await TasksAndMenu.Create(Email);
+                        await App.Current.MainPage.Navigation.PushModalAsync(main);
                     }
+                    else
+                        await App.Current.MainPage.DisplayAlert("Error", "SignUp Fail", "OK");
+
                 }
+            }
         }
 
     }

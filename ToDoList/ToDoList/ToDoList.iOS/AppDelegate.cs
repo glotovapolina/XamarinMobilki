@@ -24,6 +24,7 @@ namespace ToDoList.iOS
         {
             global::Xamarin.Forms.Forms.Init();
             Firebase.Core.App.Configure();
+            Xamarin.Forms.Forms.Init();
             LoadApplication(new App());
 
             return base.FinishedLaunching(app, options);

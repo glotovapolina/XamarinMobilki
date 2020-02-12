@@ -2,12 +2,14 @@
 using System.IO;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using XamarinToDoList;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 namespace ToDoList
 {
     public partial class App : Application
     {
+        public static TasksAndMenuMaster CurrentMaster;
         public const string DATABASE_NAME = "database.db";
         public static Database database;
         public static Database Database
@@ -27,8 +29,9 @@ namespace ToDoList
         public App()
         {
             InitializeComponent();
+          //  MainPage = new NavigationPage(new MapPage()); 
             MainPage = new NavigationPage(new LoginPage());
-          //  MainPage = new MainPage();
+            //  MainPage = new MainPage();
         }
 
         protected override void OnStart()

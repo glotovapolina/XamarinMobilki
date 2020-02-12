@@ -13,36 +13,54 @@ namespace ToDoList
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class ChangesCategoryPage : ContentPage
     {
-        CategoryChangesPageVM categoryChangesPageVM;
         string Email;
-        string Pass;
-        public ChangesCategoryPage(string email, string pass)
+
+        public ChangesCategoryPage(string email)
         {
             InitializeComponent();
-            categoryChangesPageVM = new CategoryChangesPageVM();
-            BindingContext = categoryChangesPageVM;
-            Title = "Список категорий";
+            Title = AppResources.ChangeCategories;
             Email = email;
-            Pass = pass;
-       //     Category category = new Category("Работа", 1, Email);
-        //    App.Database.SaveItemCategory(category);
         }
         protected override async void OnAppearing()
         {
-            
-            categoryList.ItemsSource = await App.Database.GetItemsCategory();
+            //  if (listdeletecategory.Count == 0)
+            // {
+
+
+            //  categoryChangesPageVM = new CategoryChangesPageVM(listcurrentcategory);
+            //BindingContext = categoryChangesPageVM;
             base.OnAppearing();
+            categoryList.ItemsSource = await App.Database.SQLiteDatabase.Table<Category>().Where(c => c.IdUser.Equals(Email)).ToListAsync();
+
         }
-        private void BtnDone_Activated(object sender, EventArgs e)
+        private  void BtnDone_Activated(object sender, EventArgs e)
         {
-
+          //  for(int i=0;i<listdeletecategory.Count;i++ )
+           
         }
-    
 
+     
         private void BtnClear_Activated(object sender, EventArgs e)
         {
 
         }
+
+        private async void  Btndel_Clicked(object sender, EventArgs e)
+        {
+            Button button = sender as Button;
+            Category category = button.BindingContext as Category;
+            if (!category.Name.Equals(Database.UndeletableCategory))
+            {
+                await App.Database.SQLiteDatabase.DeleteAsync(category);
+                await App.CurrentMaster.SetMenu(Email);
+                await this.Navigation.PushAsync(new ChangesCategoryPage(Email));
+            }
+            else
+            {
+                await App.Current.MainPage.DisplayAlert(AppResources.Error, AppResources.ErrorNoCategory, AppResources.OK);
+            }
+        }
+      
         /* protected override void OnAppearing()
 {
 ToolbarItem.
