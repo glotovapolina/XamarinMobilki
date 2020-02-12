@@ -20,6 +20,7 @@ namespace ToDoList.Droid
             ToolbarResource = Resource.Layout.Toolbar;
            
             base.OnCreate(savedInstanceState);
+            Xamarin.Forms.Forms.Init(this, savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
             FirebaseApp.InitializeApp(Application.Context);
           

@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ToDoList.ChangesCategoryPage"
+             BindingContext="CategoryChangesPageVM">
+    <StackLayout>
+        <ListView x:Name="categoryList"
+                 ItemsSource="{Binding Category}" 
+                 HasUnevenRows="True">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <ViewCell.View>
+                            <StackLayout Orientation="Horizontal">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="90*" />
+                                        <ColumnDefinition Width="10*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Label Text="{Binding Name}" FontSize="Large" Grid.Column="0" Grid.Row="0"/>
+                                    <Button x:Name="btndel" CommandParameter="{Binding Category}" Image="clear.png" BackgroundColor="Transparent" Grid.Column="1" Grid.Row="0" Clicked="Btndel_Clicked"  />
+                                </Grid>
+                            </StackLayout>
+                        </ViewCell.View>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </StackLayout>
+
+</ContentPage>

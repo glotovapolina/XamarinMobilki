@@ -27,8 +27,9 @@ namespace ToDoList
         public App()
         {
             InitializeComponent();
-            MainPage = new NavigationPage(new LoginPage());
-          //  MainPage = new MainPage();
+              MainPage = new NavigationPage(new LoginPage());
+           // MainPage = new NavigationPage(new MapPage());
+            //  MainPage = new MainPage();
         }
 
         protected override void OnStart()

@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "508449683195",
+    "firebase_url": "https://todolistxamarin-29df2.firebaseio.com",
+    "project_id": "todolistxamarin-29df2",
+    "storage_bucket": "todolistxamarin-29df2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:508449683195:android:fffbf5e188af67b0f3a25e",
+        "android_client_info": {
+          "package_name": "com.companyname.ToDoList"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "508449683195-sup46e9rle43o56ef3v2qj8o7d42jdhv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.companyname.ToDoList",
+            "certificate_hash": "ea6681ff1ddead3cefce780cda9f7606f726a6e3"
+          }
+        },
+        {
+          "client_id": "508449683195-mn6lq8ahgt58as0dp44t37v76v2v5okr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDdnMVZhFDOtpzxACuYSAGmP3lhKV1YjZo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "508449683195-mn6lq8ahgt58as0dp44t37v76v2v5okr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
